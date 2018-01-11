@@ -1,6 +1,9 @@
 package nyc.c4q.androidtest_unit4final;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected HashMap<String, String> colorDict;
     protected List<String> colorsList;
     private final String TAG = "MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +88,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        FragmentManager manager = getSupportFragmentManager();
+        Fragment fragment = manager.findFragmentByTag("info_frag");
+
         switch (item.getItemId()) {
             case R.id.info:
+                if(fragment != null){
+                    manager.beginTransaction().remove(fragment).commit();
+                }else {
+                    fragment = new InfoFragment();
+                    manager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
