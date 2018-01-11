@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +40,8 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorViewHol
     }
 
     @Override
-    public void onBindViewHolder(ColorViewHolder holder, int position) {
-        String color = colorNames.get(position);
+    public void onBindViewHolder(final ColorViewHolder holder, int position) {
+        final String color = colorNames.get(position);
         holder.name.setText(color);
         try {
             holder.name.setTextColor(Color.parseColor(getColor(color)));
@@ -48,9 +49,17 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorViewHol
             Log.d(TAG, "Unable to parse color: " + color);
             holder.name.setTextColor(Color.parseColor("#00ff00"));
             // TODO: When the name in a viewHolder is clicked,
+
             // display a long toast with the text "{color_name} has a HEX value of {color_hex}
             // for example: "blue has a HEX value of #0000ff"
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(holder.itemView.getContext(), color + " has a HEX value of " + getColor(color),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -67,10 +76,12 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorViewHol
 
     class ColorViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
+        private View itemView;
 
         public ColorViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.color_name);
+            this.itemView = itemView;
         }
     }
 }
