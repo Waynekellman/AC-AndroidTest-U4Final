@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         FragmentManager manager = getSupportFragmentManager();
-        Fragment fragment = manager.findFragmentByTag("info_frag");
+        InfoFragment fragment = (InfoFragment) manager.findFragmentByTag("info_frag");
 
         switch (item.getItemId()) {
             case R.id.info:
