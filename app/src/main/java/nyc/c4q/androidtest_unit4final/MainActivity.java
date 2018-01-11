@@ -1,10 +1,14 @@
 package nyc.c4q.androidtest_unit4final;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +72,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO: Add options menu with the item "Info" which is always visible
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
+
     // TODO: When "Info" menu item is clicked, display the fragment InfoFragment
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.info:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     // TODO: If InfoFragment is already visible and I click "Info", remove InfoFragment from the view.
     // Link to creating options menu: https://github.com/C4Q/AC-Android/tree/v2/Android/Lecture-9-Menus-and-Navigation#anatomy-of-menu-xml
 }
