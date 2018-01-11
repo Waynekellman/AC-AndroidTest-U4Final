@@ -4,16 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import nyc.c4q.androidtest_unit4final.networking.ColorNetwork;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     private ColorAdapter adapter;
     protected HashMap<String, String> colorDict;
     protected List<String> colorsList;
+    private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,26 @@ public class MainActivity extends AppCompatActivity {
         colorDict.put("red", "#ff0000");
         // TODO: adding all the colors and their values would be tedious, instead fetch it from the url below
         // https://raw.githubusercontent.com/operable/cog/master/priv/css-color-names.json
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://raw.githubusercontent.com/operable/cog/master/priv/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ColorNetwork service = retrofit.create(ColorNetwork.class);
+        Call<HashMap<String,String>> colors = service.getColors();
+        colors.enqueue(new Callback<HashMap<String, String>>() {
+            @Override
+            public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response) {
+                colorDict.clear();
+                colorDict = response.body();
+                Log.d(TAG,colorDict.toString());
+                adapter.setColorDict(colorDict);
+            }
+
+            @Override
+            public void onFailure(Call<HashMap<String, String>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
         colorsList = new ArrayList<>();
         String[] names = new String[] {"blue", "red", "purple", "indigo", "orange", "brown", "black", "green"};

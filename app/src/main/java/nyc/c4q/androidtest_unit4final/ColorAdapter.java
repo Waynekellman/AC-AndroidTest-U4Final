@@ -27,6 +27,11 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorViewHol
         colorDict = colorMap;
     }
 
+    public void setColorDict(HashMap<String,String> colorMap) {
+        colorDict = colorMap;
+        notifyDataSetChanged();
+    }
+
     @Override
     public ColorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.color_itemview, parent, false);
