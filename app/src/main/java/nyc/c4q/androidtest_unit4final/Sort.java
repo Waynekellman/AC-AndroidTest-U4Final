@@ -26,7 +26,7 @@ public class Sort {
             for (int i = list.size(); i > 0; i--) {
                 int lastAscendingItem = 0;
                 for (int j = 0; j < i; j++) {
-                    if (list.get(j).compareToIgnoreCase(list.get(lastAscendingItem)) > 0) {
+                    if (list.get(j).compareTo(list.get(lastAscendingItem)) > 0) {
                         lastAscendingItem = j;
                     }
                 }
@@ -35,16 +35,16 @@ public class Sort {
                 list.set(i - 1, temp);
             }
         } else {
-            for (int i = 0; i > list.size(); i--) {
-                int lastAscendingItem = list.size() - 1;
-                for (int j = list.size() - 1; j > 0; j--) {
-                    if (list.get(j).compareToIgnoreCase(list.get(lastAscendingItem)) < 0) {
+            for (int i = list.size(); i > 0; i--) {
+                int lastAscendingItem = 0;
+                for (int j = 0; j < i; j++) {
+                    if (list.get(j).compareTo(list.get(lastAscendingItem)) < 0) {
                         lastAscendingItem = j;
                     }
                 }
                 String temp = list.get(lastAscendingItem);
-                list.set(lastAscendingItem, list.get(i + 1));
-                list.set(i + 1, temp);
+                list.set(lastAscendingItem, list.get(i - 1));
+                list.set(i - 1, temp);
             }
         }
         /**
